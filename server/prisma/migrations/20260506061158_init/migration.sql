@@ -2,9 +2,10 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "googleId" TEXT NOT NULL,
+    "googleId" TEXT,
     "nickname" TEXT NOT NULL,
-    "birthday" TIMESTAMP(3) NOT NULL,
+    "birthMonth" INTEGER NOT NULL,
+    "birthDate" INTEGER NOT NULL,
     "memo" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
