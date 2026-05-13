@@ -5,7 +5,7 @@ const router = Router();
 
 const err500 = (err: any, res: any) => {
   console.error(err);
-  res.status(500).json({ error: "서버 에러" });
+  res.status(500).json({ error: "서버 오류 in routes/user.ts" });
 };
 
 // 유저 생성
@@ -51,8 +51,8 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const users = await prisma.user.findMany();
-    res.json(users);
+    const firstUser = await prisma.user.findFirst();
+    res.json(firstUser);
   } catch (err) {
     err500(err, res);
   }
