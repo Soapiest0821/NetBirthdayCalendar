@@ -1,9 +1,12 @@
 .topbar {
-    width: 100%;
-    height: 1rem;
+  position: fixed;
+  width: 100%;
+  height: 1rem;
+  fill: azure;
 }
 
 .pfp {
-    border-radius: 50%;
-    color: black;
+  border-radius: 50%;
+  fill: black;
+  right: 0.1rem;
 }

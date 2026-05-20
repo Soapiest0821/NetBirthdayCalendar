@@ -4,8 +4,10 @@ function AuthButton() {
   const handleClick = async () => {
     try {
       const data = await getAuth();
+      alert("JSON.stringify(data, null, 2)");
       alert(JSON.stringify(data, null, 2));
     } catch (e) {
+      alert("String(e)");
       alert(String(e));
     }
   };

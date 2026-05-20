@@ -11,18 +11,31 @@ const err500 = (err: any, res: any) => {
 // 유저 생성
 router.post("/", async (req, res) => {
   try {
-    const { email, googleId, nickname, birthMonth, birthDate, memo } = req.body;
-
-    if (
-      !email ||
-      !googleId ||
-      !nickname ||
-      !birthMonth ||
-      !birthDate ||
-      !memo
-    ) {
-      return res.status(400).json({ error: "필수값 없음" });
+    if (!req.user) {
+      const message = "로그인 안됨";
+      console.log(message);
+      return res.status(401).json({ message });
     }
+
+    if (!req.user.googleId) {
+      const message = "구글 로그인 다시";
+      console.log(message);
+      return res.status(401).json({ message });
+    }
+
+    const {
+      /*email, */ googleId /* , nickname, birthMonth, birthDate, memo*/,
+    } = req.user;
+    // if (
+    //   !email ||
+    //   !googleId ||
+    //   !nickname ||
+    //   !birthMonth ||
+    //   !birthDate ||
+    //   !memo
+    // ) {
+    //   return res.status(400).json({ error: "필수값 없음" });
+    // }
 
     const existingUser = await prisma.user.findUnique({
       where: { googleId },
@@ -32,18 +45,7 @@ router.post("/", async (req, res) => {
       return res.json(existingUser);
     }
 
-    const user = await prisma.user.create({
-      data: {
-        email,
-        googleId,
-        nickname,
-        birthMonth,
-        birthDate,
-        memo,
-      },
-    });
-
-    res.status(201).json(user);
+    return res.json(null);
   } catch (err) {
     err500(err, res);
   }
@@ -51,7 +53,24 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const firstUser = await prisma.user.findFirst();
+    if (!req.user) {
+      const message = "로그인 안됨 get";
+      console.log(message);
+      return res.status(401).json({ message });
+    }
+
+    if (!req.user.googleId) {
+      const message = "구글 로그인 다시 get";
+      console.log(message);
+      return res.status(401).json({ message });
+    }
+
+    const {
+      /*email, */ googleId /* , nickname, birthMonth, birthDate, memo*/,
+    } = req.user;
+    const firstUser = await prisma.user.findUnique({
+      where: { googleId },
+    });
     res.json(firstUser);
   } catch (err) {
     err500(err, res);
